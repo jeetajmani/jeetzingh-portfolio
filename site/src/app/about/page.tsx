@@ -55,12 +55,11 @@ export default function AboutPage() {
       </section>
       
       {/* Influences section */}
-      <section className="py-16 px-4 bg-gray-900">
+      {/* <section className="py-16 px-4 bg-gray-900">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-12 text-center">Musical Influences</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Replace with your actual influences */}
             {['Influence 1', 'Influence 2', 'Influence 3', 'Influence 4', 'Influence 5', 'Influence 6'].map((name, index) => (
               <div key={index} className="bg-black p-6 rounded-lg">
                 <div className="w-full aspect-square bg-gray-800 rounded-lg mb-4 flex items-center justify-center text-gray-500">
@@ -74,7 +73,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       
       {/* Skills section */}
       <section className="py-16 px-4">
