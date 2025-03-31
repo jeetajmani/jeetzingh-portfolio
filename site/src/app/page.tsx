@@ -81,8 +81,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Shows Preview */}
-      <section className="py-24 bg-black">
+      {/* <section className="py-24 bg-black">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
@@ -97,7 +96,6 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Show cards - replace with your actual shows */}
             {[1, 2, 3].map((show) => (
               <div key={show} className="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
                 <div className="p-6">
@@ -115,7 +113,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Call to Action */}
       <section className="py-24 bg-gradient-to-r from-purple-900 to-black">
