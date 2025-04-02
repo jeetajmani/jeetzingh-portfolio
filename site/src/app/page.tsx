@@ -68,7 +68,7 @@ export default function Home() {
                 alt="JEETZINGH music producer background image"
                 fill
                 priority
-                className="object-cover filter blur-sm"
+                className="object-cover object-[20%_center] filter blur-sm"
               />
             </AnimatedDiv>
             <div className="absolute inset-0 bg-black opacity-50"></div>
