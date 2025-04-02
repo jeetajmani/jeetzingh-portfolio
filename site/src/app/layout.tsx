@@ -15,6 +15,10 @@ const roboto = Roboto({
 export const metadata = {
   title: 'JEETZINGH Music Portfolio',
   description: 'Professional portfolio showcasing music production, recording, and mixing skills.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({

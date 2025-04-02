@@ -60,9 +60,9 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
           <p>© {currentYear} JEETZINGH. All rights reserved.</p>
           <div className="mt-2 space-x-4">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            {/* <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
-            </Link>
+            </Link> */}
             <Link href="/contact" className="hover:text-white transition-colors">
               Contact
             </Link>

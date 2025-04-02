@@ -36,15 +36,15 @@ export default function AboutPage() {
 
               <div className="space-y-4 text-gray-300">
                 <p>
-                  Jeet Singh, aka JEETZINGH, is a Canadian musician, producer, and audio engineer currently based in Atlanta, Georgia. With a deep love for the entire music creation process—from the first spark of inspiration to the final master—Jeet thrives in wearing multiple hats: music producer, recording engineer, and mixing engineer.
+                  Jeet Singh, aka <Link href="https://www.instagram.com/jeetzingh" target="_blank" className="underline hover:text-indigo-300">JEETZINGH</Link>, is a Canadian musician, producer, and audio engineer currently based in Atlanta, Georgia. With a deep love for the entire music creation process—from the first spark of inspiration to the final master—Jeet thrives in wearing multiple hats: music producer, recording engineer, and mixing engineer.
+                </p>
+
+                <p>
+                  Jeet has collaborated with a diverse range of artists, from local talents to international stars. His work spans various genres, including hip-hop, afrobeats, latin, and R&B. He has a knack for blending different styles and influences, creating luscious soundscapes that resonate with listeners. Jeet served as a recording engineer at <Link href="https://www.instagram.com/capitalwavestudio" target="_blank" className="underline hover:text-indigo-300">Capital Wave Studio</Link>, where he recorded and mixed dozens of tracks across genres. Jeet has been commended for his blazing speed, immaculate attention to detail, and ability to provide quality music as a recording engineer and has worked closely with artists such as <Link href="https://www.instagram.com/c.c.official" target="_blank" className="underline hover:text-indigo-300">Cerbeus</Link>, <Link href="https://www.instagram.com/fromyoursabani" target="_blank" className="underline hover:text-indigo-300">FromYoursAbani</Link>, and <Link href="https://www.instagram.com/ariyomakesmusic" target="_blank" className="underline hover:text-indigo-300">Ariyo</Link>.
                 </p>
 
                 <p>
                   Having explored a variety of digital audio workstations over the years, Jeet found his creative home in FL Studio half a decade ago. Its intuitive interface and powerful capabilities unlocked a new level of experimentation and efficiency in his production process. When it comes to recording and vocal tracking, however, Pro Tools is Jeet’s go-to. Its exceptional vocal editing capabilities, seamless Melodyne integration, and widespread industry use make it the ideal platform for bringing vocal performances to life with precision and polish.
-                </p>
-
-                <p>
-                  Jeet has collaborated with a diverse range of artists, from local talents to international stars. His work spans various genres, including hip-hop, afrobeats, latin, and R&B. He has a knack for blending different styles and influences, creating unique soundscapes that resonate with listeners. Jeet served as a recording engineer at <Link href="https://www.instagram.com/capitalwavestudio" target="_blank" className="underline hover:text-purple-300">Capital Wave Studio</Link>, where he recorded and mixed dozens of tracks across genres.
                 </p>
 
                 <p>
@@ -139,7 +139,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="bg-white text-purple-900 py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
+            className="bg-white text-indigo-900 py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
           >
             Contact Me
           </Link>
