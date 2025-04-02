@@ -6,9 +6,9 @@ export default function MyWorkPage() {
       {/* Hero section */}
       <section className="py-20 px-4 bg-gradient-to-b from-indigo-950 to-black">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">My Work</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Projects</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            A comprehensive overview of my work that has been released to the public. 
+            A comprehensive overview of my contributions to projects that have been released to the public. 
           </p>
         </div>
       </section>

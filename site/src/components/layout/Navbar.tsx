@@ -33,10 +33,10 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/about" className="hover:text-gray-300 transition-colors">
-            About Me
+            Bio
           </Link>
           <Link href="/mywork" className="hover:text-gray-300 transition-colors">
-            My Work
+            Projects
           </Link>
           {/* <Link href="/shows" className="hover:text-gray-300 transition-colors">
             Shows
@@ -63,7 +63,7 @@ const Navbar = () => {
               className="block py-2 hover:text-gray-300 transition-colors"
               onClick={toggleMenu}
             >
-              About Me
+              Bio
             </Link>
             {/* <Link 
               href="/shows" 
@@ -77,7 +77,7 @@ const Navbar = () => {
               className="block py-2 hover:text-gray-300 transition-colors"
               onClick={toggleMenu}
             >
-              My Work
+              Projects
             </Link>
             <Link 
               href="/contact" 

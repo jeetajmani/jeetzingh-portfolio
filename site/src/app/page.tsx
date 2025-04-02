@@ -115,18 +115,26 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 py-4">
             <Link
               href="/about"
-              className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
+              className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 hover:border-gray-200 transition-colors"
             >
-              About Me
+              Bio
             </Link>
             <Link
               href="/mywork"
               className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
             >
-              My Work
+              Projects
+            </Link>
+          </div>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/contact"
+              className="bg-indigo-400 border-2 border-indigo-400 text-white py-3 px-22 rounded-full font-medium hover:bg-indigo-500 hover:border-indigo-500 transition-colors"
+            >
+              Contact
             </Link>
           </div>
         </div>
