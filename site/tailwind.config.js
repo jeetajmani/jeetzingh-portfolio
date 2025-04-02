@@ -12,3 +12,16 @@ export const theme = {
     },
 };
 export const plugins = [];
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    // ... your existing config
+    theme: {
+      extend: {
+        // ... your existing extends
+        animation: {
+          'rotate': 'spin 8s linear infinite',
+        },
+      },
+    },
+  }

@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react'
 import { useSpring, animated, AnimatedProps } from 'react-spring'
 import { motion } from 'framer-motion';
 import React from 'react';
+import { Tilt } from "@/components/ui/tilt";
+import { TextShimmer } from '@/components/ui/text-shimmer';
 
 // Define the animated div properly for TypeScript
 const AnimatedDiv = animated.div as React.FC<AnimatedProps<React.HTMLAttributes<HTMLDivElement>>>
@@ -62,7 +64,7 @@ export default function Home() {
               className="w-full h-full"
             >
               <Image
-                src="/jeetzingh-website-header.png"
+                src="/images/jeetzingh-website-header.png"
                 alt="JEETZINGH music producer background image"
                 fill
                 priority
@@ -75,13 +77,17 @@ export default function Home() {
 
         <div className="container mx-auto px-4 z-10 text-center">
 
-          <motion.h1
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold text-white mb-6">
-            JEETZINGH
-          </motion.h1>
+            transition={{ duration: 1.2, delay: 0.2 }}>
+            <TextShimmer
+              duration={5}
+              className='text-5xl md:text-7xl font-bold mb-6 [--base-color:theme(colors.indigo.400)] [--base-gradient-color:theme(colors.indigo.200)]'
+            >
+              JEETZINGH
+            </TextShimmer>
+          </motion.div>
 
           <div className="container mx-auto p-8">
             <motion.div
@@ -108,50 +114,79 @@ export default function Home() {
               ))}
             </motion.div>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
-              href="/music"
-              className="bg-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
+              href="/about"
+              className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
             >
-              Listen Now
+              About Me
             </Link>
             <Link
-              href="/shows"
+              href="/mywork"
               className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
             >
-              Upcoming Shows
+              My Work
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Latest Release Section */}
-      <section className="py-24 bg-gray-900">
+      <section className="py-24 bg-indigo-950">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
-            Latest Release
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 text-center">
+            Selected Work
           </h2>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
             <div className="w-full md:w-1/2">
-              {/* Replace with your album cover */}
-              <div className="aspect-square bg-gray-800 rounded-lg shadow-xl relative">
-                <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                  Album Cover
-                </div>
+              <div className="aspect-square">
+                <Tilt
+                  rotationFactor={6}
+                  isRevese
+                  style={{
+                    transformOrigin: 'center center',
+                  }}
+                  springOptions={{
+                    stiffness: 26.7,
+                    damping: 4.1,
+                    mass: 0.2,
+                  }}
+                  className="group relative rounded-lg h-full w-full"
+                >
+                  <div className="absolute inset-3 rounded-lg overflow-hidden shadow-xl">
+                    <div className="w-full h-full transform transition-transform duration-700 ease-out">
+                      <Image
+                        src="/images/planet_artwork.jpg"
+                        alt="PLANET album artwork"
+                        fill
+                        priority
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </Tilt>
               </div>
             </div>
 
             <div className="w-full md:w-1/2 text-white">
-              <h3 className="text-2xl font-bold mb-2">Album Title</h3>
-              <p className="text-gray-400 mb-4">Released: March 2025</p>
+              <h3 className="text-2xl font-bold mb-2">PLANET</h3>
+              {/* <TextShimmer
+                duration={2}
+                className='text-2xl font-medium mb-2 [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]'
+              >
+                PLANET
+              </TextShimmer> */}
+              <p className="text-gray-400 mb-4">Released: May 2024</p>
               <p className="mb-6">
-                Short description of your latest album or single. Talk about the inspiration, the sound, or anything else that makes this release special.
+                &quot;PLANET&quot; is the explosive first team-up from Vancouver&#39;s Palli P and Armono — a dark, ambitious track that flexes their lyrical and melodic strengths over a hard-hitting beat.
+              </p>
+              <p className="mb-6">
+                My Contributions: Production, Recording, Mixing, Mastering, Vocal Tuning, Vocal Editing, Artwork Design
               </p>
               <div className="flex gap-4">
                 <a
-                  href="https://spotify.com"
+                  href="https://open.spotify.com/track/5WolFSDbO3iEkDMejsHTBA"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-600 text-white py-2 px-6 rounded-full font-medium hover:bg-green-700 transition-colors"
@@ -159,7 +194,7 @@ export default function Home() {
                   Spotify
                 </a>
                 <a
-                  href="https://music.apple.com"
+                  href="https://music.apple.com/ca/album/planet/1745188573?i=1745188575"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-pink-600 text-white py-2 px-6 rounded-full font-medium hover:bg-pink-700 transition-colors"
@@ -172,8 +207,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-24 bg-gradient-to-r from-purple-900 to-black">
+      {/* <section className="py-24 bg-gradient-to-r from-purple-900 to-black">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Stay Updated
@@ -196,7 +230,7 @@ export default function Home() {
             </button>
           </form>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

@@ -1,22 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 
 export default function ContactPage() {
+
+  useEffect(() => {
+    // Load Instagram embed script
+    const script = document.createElement('script')
+    script.src = 'https://www.instagram.com/embed.js'
+    script.async = true
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitResult, setSubmitResult] = useState<{
     success: boolean;
     message: string;
   } | null>(null)
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -24,12 +37,12 @@ export default function ContactPage() {
       [name]: value
     }))
   }
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitResult(null)
-    
+
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false)
@@ -37,7 +50,7 @@ export default function ContactPage() {
         success: true,
         message: 'Your message has been sent. I\'ll get back to you soon!'
       })
-      
+
       // Reset form
       setFormData({
         name: '',
@@ -46,7 +59,9 @@ export default function ContactPage() {
         message: ''
       })
     }, 1500)
-    
+
+
+
     // In a real application, you would send the form data to your backend or a form service
     // Example with fetch:
     /*
@@ -92,7 +107,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-purple-900 to-black">
+      <section className="py-20 px-4 bg-gradient-to-b from-indigo-950 to-black">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Get In Touch</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -100,60 +115,61 @@ export default function ContactPage() {
           </p>
         </div>
       </section>
-      
+
       {/* Contact form and info */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
+
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Contact information */}
             <div className="w-full lg:w-1/3">
               <div className="bg-gray-900 rounded-lg p-8">
                 <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-                
+
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <Mail className="w-6 h-6 text-purple-500 mt-1 mr-4" />
+                    <Mail className="w-6 h-6 text-purple-400 mt-1 mr-4" />
                     <div>
                       <h3 className="font-medium mb-1">Email</h3>
-                      <a 
-                        href="mailto:contact@yourname.com" 
+                      <a
+                        href="mailto:contact@yourname.com"
                         className="text-gray-300 hover:text-white transition-colors"
                       >
                         contact@yourname.com
                       </a>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
-                    <Phone className="w-6 h-6 text-purple-500 mt-1 mr-4" />
+                    <Phone className="w-6 h-6 text-purple-400 mt-1 mr-4" />
                     <div>
                       <h3 className="font-medium mb-1">Phone</h3>
-                      <a 
-                        href="tel:+11234567890" 
+                      <a
+                        href="tel:+11234567890"
                         className="text-gray-300 hover:text-white transition-colors"
                       >
                         +1 (123) 456-7890
                       </a>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
-                    <MapPin className="w-6 h-6 text-purple-500 mt-1 mr-4" />
+                    <MapPin className="w-6 h-6 text-purple-400 mt-1 mr-4" />
                     <div>
                       <h3 className="font-medium mb-1">Based in</h3>
                       <p className="text-gray-300">
-                        Los Angeles, California
+                        Atlanta, Georgia
                       </p>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-12">
                   <h3 className="font-medium mb-4">Connect with me</h3>
                   <div className="flex space-x-4">
-                    <a 
-                      href="https://instagram.com/yourusername" 
-                      target="_blank" 
+                    <a
+                      href="https://instagram.com/jeetzingh"
+                      target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Instagram"
                       className="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -163,15 +179,35 @@ export default function ContactPage() {
                       </svg>
                     </a>
                   </div>
+                  {/* <div className="flex justify-center">
+                    <blockquote
+                      className="instagram-media"
+                      data-instgrm-permalink="https://www.instagram.com/jeetzingh/"
+                      data-instgrm-version="14"
+                      style={{
+                        background: '#FFF',
+                        borderRadius: '12px',
+                        border: '1px solid #dbdbdb',
+                        boxShadow: 'none',
+                        display: 'block',
+                        margin: '0 auto',
+                        minWidth: '326px',
+                        padding: '0',
+                        maxWidth: '540px',
+                        width: '100%'
+                      }}
+                    ></blockquote>
+                  </div> */}
                 </div>
               </div>
+
             </div>
-            
+
             {/* Contact form */}
             <div className="w-full lg:w-2/3">
               <div className="bg-gray-900 rounded-lg p-8">
                 <h2 className="text-2xl font-bold mb-6">Send me a message</h2>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -188,7 +224,7 @@ export default function ContactPage() {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium mb-2">
                         Your Email
@@ -204,7 +240,7 @@ export default function ContactPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium mb-2">
                       Subject
@@ -224,7 +260,7 @@ export default function ContactPage() {
                       <option value="other">Other</option>
                     </select>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium mb-2">
                       Your Message
@@ -239,7 +275,7 @@ export default function ContactPage() {
                       required
                     ></textarea>
                   </div>
-                  
+
                   <div>
                     <button
                       type="submit"
@@ -262,7 +298,7 @@ export default function ContactPage() {
                       )}
                     </button>
                   </div>
-                  
+
                   {/* Form submission result */}
                   {submitResult && (
                     <div className={`rounded-lg p-4 ${submitResult.success ? 'bg-green-900/50' : 'bg-red-900/50'}`}>
@@ -277,9 +313,9 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      
+
       {/* FAQ section */}
-      <section className="py-16 px-4 bg-gray-900">
+      {/* <section className="py-16 px-4 bg-gray-900">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
           
@@ -313,7 +349,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

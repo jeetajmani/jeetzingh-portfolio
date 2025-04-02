@@ -1,11 +1,11 @@
-// import Image from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-purple-900 to-black">
+      <section className="py-20 px-4 bg-gradient-to-b from-indigo-950 to-black">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -13,47 +13,49 @@ export default function AboutPage() {
           </p>
         </div>
       </section>
-      
+
       {/* Bio section */}
-      <section className="py-16 px-4">
+      <section className="py-12 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             {/* Profile image */}
             <div className="w-full md:w-1/3 aspect-square bg-gray-800 rounded-lg relative overflow-hidden">
               {/* Replace with your actual image */}
-              <div className="absolute inset-0 flex items-center justify-center text-gray-500 text-lg">
-                Your Photo Here
-              </div>
+              <Image
+                src="/images/jeetzingh-profile.jpg"
+                alt="Profile Image"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
-            
+
             {/* Bio text */}
             <div className="w-full md:w-2/3">
-              <h2 className="text-3xl font-bold mb-6">The Story</h2>
-              
+              {/* <h2 className="text-3xl font-bold mb-6">The Story</h2> */}
+
               <div className="space-y-4 text-gray-300">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum 
-                  magna eget sem maximus, vitae efficitur justo dapibus. Praesent tempor volutpat 
-                  velit, ut molestie eros mollis ac.
+                  Jeet Singh, aka JEETZINGH, is a Canadian musician, producer, and audio engineer currently based in Atlanta, Georgia. With a deep love for the entire music creation process—from the first spark of inspiration to the final master—Jeet thrives in wearing multiple hats: music producer, recording engineer, and mixing engineer.
                 </p>
-                
+
                 <p>
-                  Fusce gravida vel urna a convallis. Fusce nec pharetra magna. Nulla 
-                  facilisi. Morbi gravida metus sit amet ligula malesuada tincidunt. Nulla 
-                  tristique urna ut justo ornare, et maximus dui varius.
+                  Having explored a variety of digital audio workstations over the years, Jeet found his creative home in FL Studio half a decade ago. Its intuitive interface and powerful capabilities unlocked a new level of experimentation and efficiency in his production process. When it comes to recording and vocal tracking, however, Pro Tools is Jeet’s go-to. Its exceptional vocal editing capabilities, seamless Melodyne integration, and widespread industry use make it the ideal platform for bringing vocal performances to life with precision and polish.
                 </p>
-                
+
                 <p>
-                  Donec feugiat eros et velit condimentum, vel faucibus ex convallis. Sed 
-                  tincidunt sem et eros tempus malesuada. Vestibulum ante ipsum primis in 
-                  faucibus orci luctus et ultrices posuere cubilia curae.
+                  Jeet has collaborated with a diverse range of artists, from local talents to international stars. His work spans various genres, including hip-hop, afrobeats, latin, and R&B. He has a knack for blending different styles and influences, creating unique soundscapes that resonate with listeners. Jeet served as a recording engineer at <Link href="https://www.instagram.com/capitalwavestudio" className="underline hover:text-purple-300">Capital Wave Studio</Link>, where he recorded and mixed dozens of tracks across genres.
+                </p>
+
+                <p>
+                  Jeet’s approach to music is both technical and artistic, with a commitment to building workflows that are not only efficient but also deeply personal. Every mix, every take, and every creative decision reflects a passion for detail and a desire to bring out the best in every artist he works with.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-      
+
       {/* Influences section */}
       {/* <section className="py-16 px-4 bg-gray-900">
         <div className="container mx-auto">
@@ -74,35 +76,32 @@ export default function AboutPage() {
           </div>
         </div>
       </section> */}
-      
-      {/* Skills section */}
+{/* 
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-12 text-center">Skills & Equipment</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Skills */}
             <div>
               <h3 className="text-2xl font-semibold mb-6">Skills</h3>
               <ul className="space-y-4">
                 {[
                   'Music Production',
-                  'Sound Design',
+                  'Recording',
                   'Mixing & Mastering',
+                  'Vocal Editing/Tuning',
                   'Composition',
-                  'Live Performance',
-                  'Instrument 1',
+                  'Alto Saxophone',
                   'Instrument 2'
                 ].map((skill, index) => (
                   <li key={index} className="flex items-center">
-                    <span className="w-2 h-2 bg-purple-600 rounded-full mr-3"></span>
+                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
                     <span>{skill}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            
-            {/* Equipment */}
+
             <div>
               <h3 className="text-2xl font-semibold mb-6">Equipment</h3>
               <div className="space-y-6">
@@ -115,7 +114,7 @@ export default function AboutPage() {
                     <li>Virtual Instrument 2</li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <h4 className="text-lg font-medium text-purple-400 mb-2">Hardware</h4>
                   <ul className="text-gray-300">
@@ -129,17 +128,17 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
-      
+      </section> */}
+
       {/* Call to action */}
-      <section className="py-16 px-4 bg-purple-900">
+      <section className="py-16 px-4 bg-indigo-950">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">Let&#39;s Work Together</h2>
           <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Interested in collaborating or booking me for your event? Get in touch!
+            Interested in collaborating Get in touch!
           </p>
-          <Link 
-            href="/contact" 
+          <Link
+            href="/contact"
             className="bg-white text-purple-900 py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
           >
             Contact Me
