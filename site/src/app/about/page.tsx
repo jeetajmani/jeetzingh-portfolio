@@ -44,7 +44,7 @@ export default function AboutPage() {
                 </p>
 
                 <p>
-                  Jeet has collaborated with a diverse range of artists, from local talents to international stars. His work spans various genres, including hip-hop, afrobeats, latin, and R&B. He has a knack for blending different styles and influences, creating unique soundscapes that resonate with listeners. Jeet served as a recording engineer at <Link href="https://www.instagram.com/capitalwavestudio" className="underline hover:text-purple-300">Capital Wave Studio</Link>, where he recorded and mixed dozens of tracks across genres.
+                  Jeet has collaborated with a diverse range of artists, from local talents to international stars. His work spans various genres, including hip-hop, afrobeats, latin, and R&B. He has a knack for blending different styles and influences, creating unique soundscapes that resonate with listeners. Jeet served as a recording engineer at <Link href="https://www.instagram.com/capitalwavestudio" target="_blank" className="underline hover:text-purple-300">Capital Wave Studio</Link>, where he recorded and mixed dozens of tracks across genres.
                 </p>
 
                 <p>
@@ -133,7 +133,7 @@ export default function AboutPage() {
       {/* Call to action */}
       <section className="py-16 px-4 bg-indigo-950">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Let&#39;s Work Together</h2>
+          <h2 className="text-3xl font-bold mb-6">Let’s Work Together</h2>
           <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
             Interested in collaborating Get in touch!
           </p>

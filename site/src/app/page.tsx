@@ -179,7 +179,7 @@ export default function Home() {
               </TextShimmer> */}
               <p className="text-gray-400 mb-4">Released: May 2024</p>
               <p className="mb-6">
-                &quot;PLANET&quot; is the explosive first team-up from Vancouver&#39;s Palli P and Armono — a dark, ambitious track that flexes their lyrical and melodic strengths over a hard-hitting beat.
+                “PLANET” is the explosive first team-up from Vancouver’s Palli P and Armono — a dark, ambitious track that flexes their lyrical and melodic strengths over a hard-hitting beat.
               </p>
               <p className="mb-6">
                 My Contributions: Production, Recording, Mixing, Mastering, Vocal Tuning, Vocal Editing, Artwork Design

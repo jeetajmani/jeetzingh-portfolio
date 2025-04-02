@@ -344,7 +344,7 @@ export default function ContactPage() {
             <div className="bg-black p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-3">Do you collaborate with other artists?</h3>
               <p className="text-gray-300">
-                Yes, I&#39;m open to collaborations. Send me a message with links to your work and we can discuss potential projects.
+                Yes, I’m open to collaborations. Send me a message with links to your work and we can discuss potential projects.
               </p>
             </div>
           </div>
