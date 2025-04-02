@@ -1,32 +1,123 @@
+'use client'
+
 import Link from 'next/link'
-//import Image from 'next/image'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { useSpring, animated, AnimatedProps } from 'react-spring'
+import { motion } from 'framer-motion';
+import React from 'react';
+
+// Define the animated div properly for TypeScript
+const AnimatedDiv = animated.div as React.FC<AnimatedProps<React.HTMLAttributes<HTMLDivElement>>>
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Create spring animation for the zoom effect
+  const imageAnimation = useSpring({
+    transform: `scale(${1 + Math.min(scrollY / 1000, 0.02)})`,
+    config: { mass: 1, tension: 70, friction: 40 }
+  })
+
+  const terms = ["Music Producer", "Recording Engineer", "Mixing Engineer"];
+
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.6, // Longer delay between terms
+        delayChildren: 0.8
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8 }
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-black">
+      <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Replace with your own hero image */}
-          <div className="w-full h-full bg-gradient-to-r from-purple-900 to-black opacity-70"></div>
+          <div className="relative w-full h-full">
+            {/* Animated image with React Spring */}
+            <AnimatedDiv
+              style={imageAnimation}
+              className="w-full h-full"
+            >
+              <Image
+                src="/jeetzingh-website-header.png"
+                alt="JEETZINGH music producer background image"
+                fill
+                priority
+                className="object-cover filter blur-sm"
+              />
+            </AnimatedDiv>
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+          </div>
         </div>
-        
+
         <div className="container mx-auto px-4 z-10 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            className="text-5xl md:text-7xl font-bold text-white mb-6">
             JEETZINGH
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Music Producer • Recording Engineer • Mixing Engineer
-          </p>
+          </motion.h1>
+
+          <div className="container mx-auto p-8">
+            <motion.div
+              className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
+              variants={container}
+              initial="hidden"
+              animate="visible"
+            >
+              {terms.map((term, i) => (
+                <React.Fragment key={i}>
+                  <motion.span variants={item} className="inline-block">
+                    {term}
+                  </motion.span>
+
+                  {i < terms.length - 1 && (
+                    <motion.span
+                      variants={item}
+                      className="inline-block mx-2"
+                    >
+                      •
+                    </motion.span>
+                  )}
+                </React.Fragment>
+              ))}
+            </motion.div>
+          </div>
+          
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link 
-              href="/music" 
+            <Link
+              href="/music"
               className="bg-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 transition-colors"
             >
               Listen Now
             </Link>
-            <Link 
-              href="/shows" 
+            <Link
+              href="/shows"
               className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
             >
               Upcoming Shows
@@ -41,7 +132,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
             Latest Release
           </h2>
-          
+
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
             <div className="w-full md:w-1/2">
               {/* Replace with your album cover */}
@@ -51,7 +142,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             <div className="w-full md:w-1/2 text-white">
               <h3 className="text-2xl font-bold mb-2">Album Title</h3>
               <p className="text-gray-400 mb-4">Released: March 2025</p>
@@ -59,18 +150,18 @@ export default function Home() {
                 Short description of your latest album or single. Talk about the inspiration, the sound, or anything else that makes this release special.
               </p>
               <div className="flex gap-4">
-                <a 
-                  href="https://spotify.com" 
+                <a
+                  href="https://spotify.com"
                   target="_blank"
-                  rel="noopener noreferrer" 
+                  rel="noopener noreferrer"
                   className="bg-green-600 text-white py-2 px-6 rounded-full font-medium hover:bg-green-700 transition-colors"
                 >
                   Spotify
                 </a>
-                <a 
-                  href="https://music.apple.com" 
+                <a
+                  href="https://music.apple.com"
                   target="_blank"
-                  rel="noopener noreferrer" 
+                  rel="noopener noreferrer"
                   className="bg-pink-600 text-white py-2 px-6 rounded-full font-medium hover:bg-pink-700 transition-colors"
                 >
                   Apple Music
@@ -80,40 +171,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <section className="py-24 bg-black">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Upcoming Shows
-            </h2>
-            <Link 
-              href="/shows" 
-              className="text-white underline underline-offset-4 hover:text-gray-300 transition-colors"
-            >
-              View All
-            </Link>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((show) => (
-              <div key={show} className="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
-                <div className="p-6">
-                  <p className="text-gray-400 mb-2">April {show + 10}, 2025</p>
-                  <h3 className="text-xl font-bold text-white mb-2">Venue Name</h3>
-                  <p className="text-gray-400 mb-4">City, Country</p>
-                  <a 
-                    href="#" 
-                    className="inline-block bg-white text-black py-2 px-6 rounded-full font-medium hover:bg-gray-200 transition-colors"
-                  >
-                    Get Tickets
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* Call to Action */}
       <section className="py-24 bg-gradient-to-r from-purple-900 to-black">
@@ -125,14 +182,14 @@ export default function Home() {
             Subscribe to my newsletter for exclusive updates, behind-the-scenes content, and early access to tickets.
           </p>
           <form className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-            <input 
-              type="email" 
-              placeholder="Your email address" 
+            <input
+              type="email"
+              placeholder="Your email address"
               className="flex-grow px-4 py-3 rounded-l-full text-black"
               required
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="bg-white text-black px-6 py-3 rounded-r-full font-medium hover:bg-gray-200 transition-colors"
             >
               Subscribe
