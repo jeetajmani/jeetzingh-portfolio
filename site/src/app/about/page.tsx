@@ -8,9 +8,9 @@ export default function AboutPage() {
       <section className="py-20 px-4 bg-gradient-to-b from-indigo-950 to-black">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          {/* <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             My journey, influences, and the story behind the music.
-          </p>
+          </p> */}
         </div>
       </section>
 

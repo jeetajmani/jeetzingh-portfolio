@@ -8,7 +8,7 @@ export default function MyWorkPage() {
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">My Work</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            My journey, influences, and the story behind the music.
+            A comprehensive overview of my work that has been released to the public. 
           </p>
         </div>
       </section>
