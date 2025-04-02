@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import { Roboto } from 'next/font/google'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
+import { Analytics } from "@vercel/analytics/react"
 
 // Use Roboto_Flex instead of Roboto for Next.js 13+
 // const inter = Inter({ subsets: ['latin'] })
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-grow">
           {children}
+          <Analytics />
         </main>
         <Footer />
       </body>
