@@ -14,7 +14,7 @@ const roboto = Roboto({
 })
 
 export const metadata = {
-  title: 'JEETZINGH Music Portfolio',
+  title: 'JEETZINGH | Music Producer, Recording Engineer, Mixing Engineer',
   description: 'Professional portfolio showcasing music production, recording, and mixing skills.',
   icons: {
     icon: '/favicon.ico',
