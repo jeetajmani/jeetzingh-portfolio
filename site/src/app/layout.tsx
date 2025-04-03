@@ -16,10 +16,6 @@ const roboto = Roboto({
 export const metadata = {
   title: 'JEETZINGH | Music Producer, Recording Engineer, Mixing Engineer',
   description: 'Professional portfolio showcasing music production, recording, and mixing skills.',
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-  },
 }
 
 export default function RootLayout({
@@ -29,6 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <meta name="apple-mobile-web-app-title" content="JEETZINGH" />
       <body className={`${roboto.className} min-h-screen flex flex-col`}>
         <Navbar />
         <main className="flex-grow">
