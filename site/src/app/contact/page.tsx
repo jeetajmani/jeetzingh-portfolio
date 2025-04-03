@@ -303,7 +303,7 @@ export default function ContactPage() {
                     </a>
 
                     <a
-                      href="https://instagram.com/jeetzingh"
+                      href="https://tiktok.com/jeetzingh"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="TikTok"
