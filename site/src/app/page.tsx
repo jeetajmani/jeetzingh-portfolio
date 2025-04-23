@@ -151,7 +151,7 @@ export default function Home() {
             <div className="w-full md:w-1/2">
               <div className="aspect-square">
                 <Tilt
-                  rotationFactor={6}
+                  rotationFactor={9}
                   isRevese
                   style={{
                     transformOrigin: 'center center',
@@ -227,7 +227,7 @@ export default function Home() {
             <div className="w-full md:w-1/2">
               <div className="aspect-square">
                 <Tilt
-                  rotationFactor={6}
+                  rotationFactor={9}
                   isRevese
                   style={{
                     transformOrigin: 'center center',
