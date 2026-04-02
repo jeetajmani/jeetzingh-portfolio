@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { useSpring, animated, AnimatedProps } from 'react-spring'
+import { useSpring, animated, AnimatedProps } from '@react-spring/web'
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Tilt } from "@/components/ui/tilt";
@@ -12,19 +12,8 @@ import { TextShimmer } from '@/components/ui/text-shimmer';
 // Define the animated div properly for TypeScript
 const AnimatedDiv = animated.div as React.FC<AnimatedProps<React.HTMLAttributes<HTMLDivElement>>>
 
-export default function Home() {
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Create spring animation for the zoom effect
+// Memoized Hero Section - prevents re-renders on scroll
+const HeroSection = React.memo(({ scrollY }: { scrollY: number }) => {
   const imageAnimation = useSpring({
     transform: `scale(${1 + Math.min(scrollY / 1000, 0.02)})`,
     config: { mass: 1, tension: 70, friction: 40 }
@@ -37,7 +26,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.6, // Longer delay between terms
+        staggerChildren: 0.6,
         delayChildren: 0.8
       }
     }
@@ -53,92 +42,114 @@ export default function Home() {
   };
 
   return (
+    <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <div className="relative w-full h-full">
+          {/* Animated image with React Spring */}
+          <AnimatedDiv
+            style={imageAnimation}
+            className="w-full h-full"
+          >
+            <Image
+              src="/images/jeetzingh-website-header.png"
+              alt="JEETZINGH music producer background image"
+              fill
+              priority
+              className="object-cover object-[20%_center] filter blur-sm"
+            />
+          </AnimatedDiv>
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 z-10 text-center">
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.2 }}>
+          <TextShimmer
+            duration={5}
+            className='text-5xl md:text-7xl font-bold mb-6 [--base-color:var(--color-indigo-400)] [--base-gradient-color:var(--color-indigo-200)]'
+          >
+            JEETZINGH
+          </TextShimmer>
+        </motion.div>
+
+        <div className="container mx-auto p-8">
+          <motion.div
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            {terms.map((term, i) => (
+              <React.Fragment key={i}>
+                <motion.span variants={item} className="inline-block">
+                  {term}
+                </motion.span>
+
+                {i < terms.length - 1 && (
+                  <motion.span
+                    variants={item}
+                    className="inline-block mx-2"
+                  >
+                    •
+                  </motion.span>
+                )}
+              </React.Fragment>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-center gap-4 py-4">
+          <Link
+            href="/about"
+            className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 hover:border-gray-200 transition-colors"
+          >
+            Bio
+          </Link>
+          <Link
+            href="/mywork"
+            className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
+          >
+            Projects
+          </Link>
+        </div>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Link
+            href="/contact"
+            className="bg-indigo-400 border-2 border-indigo-400 text-white py-3 px-22 rounded-full font-medium hover:bg-indigo-500 hover:border-indigo-500 transition-colors"
+          >
+            Contact
+          </Link>
+        </div>
+      </div>
+    </section>
+  )
+}, (prevProps, nextProps) => {
+  // Only re-render if scrollY actually changes significantly
+  return Math.abs(prevProps.scrollY - nextProps.scrollY) < 1
+})
+
+HeroSection.displayName = 'HeroSection'
+
+export default function Home() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="relative w-full h-full">
-            {/* Animated image with React Spring */}
-            <AnimatedDiv
-              style={imageAnimation}
-              className="w-full h-full"
-            >
-              <Image
-                src="/images/jeetzingh-website-header.png"
-                alt="JEETZINGH music producer background image"
-                fill
-                priority
-                className="object-cover object-[20%_center] filter blur-sm"
-              />
-            </AnimatedDiv>
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 z-10 text-center">
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.2 }}>
-            <TextShimmer
-              duration={5}
-              className='text-5xl md:text-7xl font-bold mb-6 [--base-color:theme(colors.indigo.400)] [--base-gradient-color:theme(colors.indigo.200)]'
-            >
-              JEETZINGH
-            </TextShimmer>
-          </motion.div>
-
-          <div className="container mx-auto p-8">
-            <motion.div
-              className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
-              variants={container}
-              initial="hidden"
-              animate="visible"
-            >
-              {terms.map((term, i) => (
-                <React.Fragment key={i}>
-                  <motion.span variants={item} className="inline-block">
-                    {term}
-                  </motion.span>
-
-                  {i < terms.length - 1 && (
-                    <motion.span
-                      variants={item}
-                      className="inline-block mx-2"
-                    >
-                      •
-                    </motion.span>
-                  )}
-                </React.Fragment>
-              ))}
-            </motion.div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4 py-4">
-            <Link
-              href="/about"
-              className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 hover:border-gray-200 transition-colors"
-            >
-              Bio
-            </Link>
-            <Link
-              href="/mywork"
-              className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
-            >
-              Projects
-            </Link>
-          </div>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/contact"
-              className="bg-indigo-400 border-2 border-indigo-400 text-white py-3 px-22 rounded-full font-medium hover:bg-indigo-500 hover:border-indigo-500 transition-colors"
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HeroSection scrollY={scrollY} />
 
       {/* Latest Work */}
       <section className="py-24 bg-indigo-950">

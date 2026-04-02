@@ -11,7 +11,7 @@ interface TextShimmerProps {
   spread?: number;
 }
 
-export function TextShimmer({
+export const TextShimmer = React.memo(function TextShimmer({
   children,
   as: Component = 'p',
   className,
@@ -50,4 +50,12 @@ export function TextShimmer({
       {children}
     </MotionComponent>
   );
-}
+}, (prevProps, nextProps) => {
+  // Custom comparison - only re-render if children or specific props change
+  return prevProps.children === nextProps.children &&
+         prevProps.duration === nextProps.duration &&
+         prevProps.spread === nextProps.spread &&
+         prevProps.className === nextProps.className;
+});
+
+TextShimmer.displayName = 'TextShimmer';
