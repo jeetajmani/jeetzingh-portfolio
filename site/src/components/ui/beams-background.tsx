@@ -1,8 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { useSpring, animated, AnimatedProps } from "@react-spring/web";
+import React from "react";
+// import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { TextShimmer } from "./text-shimmer";
 
 interface AnimatedGradientBackgroundProps {
     className?: string;
@@ -32,27 +38,28 @@ function createBeam(width: number, height: number): Beam {
         length: height * 2.5,
         angle: angle,
         speed: 0.6 + Math.random() * 1.2,
-        opacity: 0.12 + Math.random() * 0.16,
+        opacity: 0.25 + Math.random() * 0.25,
         hue: 190 + Math.random() * 70,
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: 0.02 + Math.random() * 0.03,
     };
 }
 
+const OPACITY_MAP = {
+    subtle: 0.7,
+    medium: 0.85,
+    strong: 1,
+};
+
 export function BeamsBackground({
     className,
     intensity = "strong",
+    children,
 }: AnimatedGradientBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
     const MINIMUM_BEAMS = 20;
-
-    const opacityMap = {
-        subtle: 0.7,
-        medium: 0.85,
-        strong: 1,
-    };
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -105,7 +112,7 @@ export function BeamsBackground({
             const pulsingOpacity =
                 beam.opacity *
                 (0.8 + Math.sin(beam.pulse) * 0.2) *
-                opacityMap[intensity];
+                OPACITY_MAP[intensity];
 
             const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
 
@@ -138,7 +145,7 @@ export function BeamsBackground({
             if (!canvas || !ctx) return;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = "blur(35px)";
+            ctx.filter = "blur(50px)";
 
             const totalBeams = beamsRef.current.length;
             beamsRef.current.forEach((beam, index) => {
@@ -169,53 +176,142 @@ export function BeamsBackground({
     return (
         <div
             className={cn(
-                "relative min-h-screen w-full overflow-hidden bg-neutral-950",
+                "relative w-full overflow-hidden",
                 className
             )}
         >
+            <div className="relative z-0 w-full h-full">
+                {children}
+            </div>
+
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0"
-                style={{ filter: "blur(15px)" }}
+                className="absolute inset-0 z-10 pointer-events-none"
+                style={{ filter: "blur(30px)" }}
             />
+        </div>
+    );
+}
 
-            <motion.div
-                className="absolute inset-0 bg-neutral-950/5"
-                animate={{
-                    opacity: [0.05, 0.15, 0.05],
-                }}
-                transition={{
-                    duration: 10,
-                    ease: "easeInOut",
-                    repeat: Number.POSITIVE_INFINITY,
-                }}
-                style={{
-                    backdropFilter: "blur(50px)",
-                }}
-            />
+// Define the animated div properly for TypeScript
+const AnimatedDiv = animated.div as React.FC<AnimatedProps<React.HTMLAttributes<HTMLDivElement>>>
 
-            <div className="relative z-10 flex h-screen w-full items-center justify-center">
-                <div className="flex flex-col items-center justify-center gap-6 px-4 text-center">
-                    <motion.h1
-                        className="text-6xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+interface HeroWithBeamsProps {
+    scrollY: number;
+}
+
+export function HeroWithBeams({ scrollY }: HeroWithBeamsProps) {
+    const imageAnimation = useSpring({
+        transform: `scale(${1 + Math.min(scrollY / 1000, 0.02)})`,
+        config: { mass: 1, tension: 70, friction: 40 }
+    })
+
+    const terms = ["Music Producer", "Recording Engineer", "Mixing Engineer"];
+
+    const container = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.6,
+                delayChildren: 0.8
+            }
+        }
+    };
+
+    const item = {
+        hidden: { opacity: 0, y: 5 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.8 }
+        }
+    };
+
+    return (
+        <section className="relative h-screen w-screen flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 z-0">
+                <AnimatedDiv
+                    style={imageAnimation}
+                    className="w-full h-full relative"
+                >
+                    <div className="w-full h-full relative" style={{ transform: 'scale(1.2)' }}>
+                        <Image
+                            src="/images/jeetzingh-website-header.png"
+                            alt="JEETZINGH music producer background image"
+                            fill
+                            priority
+                            className="object-cover object-[20%_center] filter blur-sm"
+                        />
+                    </div>
+                    <BeamsBackground className="absolute inset-0" intensity="strong">
+                        <div />
+                    </BeamsBackground>
+                </AnimatedDiv>
+            </div>
+
+            <div className="container mx-auto px-4 z-20 text-center relative">
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 0.2 }}>
+                    <TextShimmer
+                        duration={5}
+                        className='text-5xl md:text-7xl font-bold mb-6 [--base-color:var(--color-indigo-400)] [--base-gradient-color:var(--color-indigo-200)]'
                     >
-                        Beams
-                        <br />
-                        Background
-                    </motion.h1>
-                    <motion.p
-                        className="text-lg md:text-2xl lg:text-3xl text-white/70 tracking-tighter"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        JEETZINGH
+                    </TextShimmer>
+                </motion.div>
+
+                <div className="container mx-auto p-8">
+                    <motion.div
+                        className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto"
+                        variants={container}
+                        initial="hidden"
+                        animate="visible"
                     >
-                        For your pleasure
-                    </motion.p>
+                        {terms.map((term, i) => (
+                            <React.Fragment key={i}>
+                                <motion.span variants={item} className="inline-block">
+                                    {term}
+                                </motion.span>
+
+                                {i < terms.length - 1 && (
+                                    <motion.span
+                                        variants={item}
+                                        className="inline-block mx-2"
+                                    >
+                                        •
+                                    </motion.span>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </motion.div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4 py-4">
+                    <Link
+                        href="/about"
+                        className="bg-white border-2 border-white text-black py-3 px-8 rounded-full font-medium hover:bg-gray-200 hover:border-gray-200 transition-colors"
+                    >
+                        Bio
+                    </Link>
+                    <Link
+                        href="/mywork"
+                        className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-medium hover:bg-white/10 transition-colors"
+                    >
+                        Projects
+                    </Link>
+                </div>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Link
+                        href="/contact"
+                        className="bg-indigo-400 border-2 border-indigo-400 text-white py-3 px-22 rounded-full font-medium hover:bg-indigo-500 hover:border-indigo-500 transition-colors"
+                    >
+                        Contact
+                    </Link>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

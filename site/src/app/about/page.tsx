@@ -1,11 +1,25 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import ProfileImageWithTrail from '@/components/ui/ProfileImageWithTrail'
 
 export default function AboutPage() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-indigo-950 to-black">
+      <section className="py-20 px-4 bg-linear-to-b from-indigo-950 to-black">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Bio</h1>
         </div>
@@ -16,7 +30,8 @@ export default function AboutPage() {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             {/* Profile image */}
-            <ProfileImageWithTrail />
+            <ProfileImageWithTrail scrollY={scrollY} />
+            
 
             {/* Bio text */}
             <div className="w-full md:w-2/3">

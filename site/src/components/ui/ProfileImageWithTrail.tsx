@@ -2,6 +2,9 @@
 
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
+import { useSpring, animated, AnimatedProps } from '@react-spring/web'
+import React from 'react'
+import { Tilt } from '@/components/ui/tilt'
 
 interface TrailPoint {
   x: number
@@ -9,12 +12,37 @@ interface TrailPoint {
   timestamp: number
 }
 
-export default function ProfileImageWithTrail() {
+const AnimatedDiv = animated.div as React.FC<AnimatedProps<React.HTMLAttributes<HTMLDivElement>>>
+
+export default function ProfileImageWithTrail({ scrollY = 0 }: { scrollY?: number }) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [trail, setTrail] = useState<TrailPoint[]>([])
   const [isHovering, setIsHovering] = useState(false)
+  const [colorCycle, setColorCycle] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const lastPositionRef = useRef({ x: 0, y: 0 })
+
+  const imageAnimation = useSpring({
+    transform: `scale(${1 + Math.min(scrollY / 1000, 0.02)})`,
+    config: { mass: 1, tension: 70, friction: 40 }
+  })
+
+  // Interpolate color between indigo-400 (#818cf8) and #56B9EC
+  const getInterpolatedColor = (cycle: number) => {
+    // Normalize cycle (0-360) to 0-1
+    const t = (Math.sin(cycle * Math.PI / 180) + 1) / 2
+    
+    // Indigo-400: #818cf8 -> RGB(129, 140, 248)
+    const color1 = { r: 129, g: 140, b: 248 }
+    // Cyan: #56B9EC -> RGB(86, 185, 236)
+    const color2 = { r: 86, g: 185, b: 236 }
+    
+    const r = Math.round(color1.r + (color2.r - color1.r) * t)
+    const g = Math.round(color1.g + (color2.g - color1.g) * t)
+    const b = Math.round(color1.b + (color2.b - color1.b) * t)
+    
+    return { r, g, b }
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return
@@ -26,44 +54,67 @@ export default function ProfileImageWithTrail() {
     setPosition({ x, y })
     lastPositionRef.current = { x, y }
 
-    // Add to trail every 15px of movement
+    // Add to trail every 5px of movement for smoother effect
     setTrail((prev) => {
       const lastPoint = prev[prev.length - 1]
       const distance = lastPoint
         ? Math.hypot(x - lastPoint.x, y - lastPoint.y)
         : 20
 
-      if (distance > 15) {
-        // Keep max 50 points to prevent performance issues
+      if (distance > 5) {
+        // Keep max 80 points to show more trail
         const newTrail = [...prev, { x, y, timestamp: Date.now() }]
-        return newTrail.length > 50 ? newTrail.slice(-50) : newTrail
+        return newTrail.length > 80 ? newTrail.slice(-80) : newTrail
       }
       return prev
     })
   }
 
-  // Calculate hue based on time (10 second cycle)
-  const colorCycle = (Date.now() / 28) % 360
-
-  // Clean up old trail points
+  // Update color cycle and clean up old trail points - client-side only
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now()
-      setTrail((prev) => prev.filter((point) => now - point.timestamp < 1000))
-    }, 100) // Reduced cleanup frequency
+    // Calculate hue based on time (10 second cycle)
+    setColorCycle((Date.now() / 28) % 360)
 
-    return () => clearInterval(interval)
+    const colorInterval = setInterval(() => {
+      setColorCycle((Date.now() / 28) % 360)
+    }, 50)
+
+    const now = Date.now()
+    setTrail((prev) => prev.filter((point) => now - point.timestamp < 1000))
+
+    const cleanupInterval = setInterval(() => {
+      const trailNow = Date.now()
+      setTrail((prev) => prev.filter((point) => trailNow - point.timestamp < 1000))
+    }, 100)
+
+    return () => {
+      clearInterval(colorInterval)
+      clearInterval(cleanupInterval)
+    }
   }, [])
 
   return (
     <div className="w-full md:w-1/3">
-      <div
-        ref={containerRef}
-        className="aspect-square bg-gray-800 rounded-lg relative overflow-hidden cursor-pointer"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+      <Tilt
+        rotationFactor={9}
+        isRevese
+        style={{
+          transformOrigin: 'center center',
+        }}
+        springOptions={{
+          stiffness: 26.7,
+          damping: 4.1,
+          mass: 0.2,
+        }}
+        className="group relative rounded-lg h-full w-full"
       >
+        <div
+          ref={containerRef}
+          className="aspect-square bg-gray-800 rounded-lg relative overflow-hidden cursor-pointer"
+          onMouseMove={handleMouseMove}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
         {/* Trail glows */}
         {trail.map((point, index) => {
           const age = Date.now() - point.timestamp
@@ -95,27 +146,36 @@ export default function ProfileImageWithTrail() {
           })}
 
         {/* Current position glow */}
-        <div
-          className="absolute w-32 h-32 rounded-full pointer-events-none"
-          style={{
-            background: `radial-gradient(circle, hsla(${colorCycle}, 100%, 65%, 0.4) 0%, hsla(${colorCycle}, 100%, 65%, 0.1) 70%, transparent 100%)`,
-            transform: `translate3d(${position.x - 64}px, ${position.y - 64}px, 0)`,
-            filter: 'blur(20px)',
-            willChange: 'transform, opacity',
-            opacity: isHovering ? 1 : 0,
-            transition: 'opacity 0.3s ease-in-out',
-            zIndex: 50,
-          }}
-        />
+        {(() => {
+          const { r, g, b } = getInterpolatedColor(colorCycle)
+          return (
+            <div
+              className="absolute w-32 h-32 rounded-full pointer-events-none"
+              style={{
+                background: `radial-gradient(circle, rgba(${r}, ${g}, ${b}, 0.4) 0%, rgba(${r}, ${g}, ${b}, 0.1) 70%, transparent 100%)`,
+                transform: `translate3d(${position.x - 64}px, ${position.y - 64}px, 0)`,
+                filter: 'blur(20px)',
+                willChange: 'transform, opacity',
+                opacity: isHovering ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
+                zIndex: 50,
+              }}
+            />
+          )
+        })()}
 
-        <Image
-          src="/images/profile-2026.jpg"
-          alt="Profile Image"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+        <AnimatedDiv style={imageAnimation} className="w-full h-full relative">
+          <Image
+            src="/images/profile-2026.jpg"
+            alt="Profile Image"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover"
+            priority
+          />
+        </AnimatedDiv>
+        </div>
+      </Tilt>
     </div>
   )
 }
